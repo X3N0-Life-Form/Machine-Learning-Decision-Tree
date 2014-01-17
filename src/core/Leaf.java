@@ -1,6 +1,6 @@
 package core;
 
-public class Leaf {
+public class Leaf implements INode {
 
 	private boolean zorg;
 	
