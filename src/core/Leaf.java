@@ -2,13 +2,13 @@ package core;
 
 public class Leaf implements INode {
 
-	private boolean zorg;
+	private boolean ok;
 	
-	public Leaf(boolean zorg) {
-		this.zorg = zorg;
+	public Leaf(boolean ok) {
+		this.ok = ok;
 	}
 	
-	public boolean isZorg() {
-		return zorg;
+	public boolean isOk() {
+		return ok;
 	}
 }
