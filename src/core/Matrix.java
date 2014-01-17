@@ -6,10 +6,10 @@ import java.util.Map;
 public class Matrix {
 
 	private String data[][];
-	private String attributes;
+	private String attributes[];
 	private Map<String, List<String>> validValues;
 	
-	public Matrix(String[][] data, String attributes,
+	public Matrix(String[][] data, String attributes[],
 			Map<String, List<String>> validValues) {
 		super();
 		this.data = data;
@@ -25,11 +25,11 @@ public class Matrix {
 		this.data = data;
 	}
 
-	public String getAttributes() {
+	public String[] getAttributes() {
 		return attributes;
 	}
 
-	public void setAttributes(String attributes) {
+	public void setAttributes(String attributes[]) {
 		this.attributes = attributes;
 	}
 
