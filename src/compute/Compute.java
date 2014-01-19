@@ -10,8 +10,15 @@ public class Compute {
 	 */
 	private Compute() {}
 	
+	/**
+	 * Calculates the entropy of the specified attribute and value.
+	 * @param attribute
+	 * @param value
+	 * @param matrix
+	 * @return
+	 */
 	public static double entropy(String attribute, String value, Matrix matrix) {
-		String[] attributes = null;// = matrix.getAttributes();
+		String[] attributes = matrix.getAttributes();
 		int attributeIndex = -1;
 		for (int i = 0; i < attributes.length; i++) {
 			if (attributes[i] == attribute) {
@@ -46,6 +53,7 @@ public class Compute {
 			return - pp * Math.log(pp) - pm * Math.log(pm);
 		}
 	}
+	
 	
 	public static double gain(String attribute, Node node) {
 		
