@@ -10,7 +10,7 @@ public class Node implements INode {
 	/**
 	 * Note: keys must be identical to those in sons map.
 	 */
-	private Map<String, Float> entropies = new TreeMap<String, Float>();
+	private Map<String, Double> entropies = new TreeMap<String, Double>();
 	/**
 	 * Note: keys must be identical to those in entropies map.
 	 */
@@ -32,11 +32,19 @@ public class Node implements INode {
 		this.attribute = attribute;
 	}
 	
-	public void addEntropy(String value, float ent) {
+	public void addEntropy(String value, double ent) {
 		entropies.put(value, ent);
 	}
 	
 	public void addSon(String value, INode son) {
 		sons.put(value, son);
+	}
+	
+	public Map<String, Double> getEntropies() {
+		return entropies;
+	}
+	
+	public Map<String, INode> getSons() {
+		return sons;
 	}
 }
