@@ -13,6 +13,23 @@ import java.util.TreeMap;
 import core.Matrix;
 
 public class Parser {
+	
+	public static void main(String[] args) throws IOException{
+		Matrix mat = parseFile("res/iris.arff");
+		
+		//att 5 ex 14
+		/*
+		for (int i = 0; i < 14 ; i++){
+			//System.out.println(i);
+			//System.out.println(mat.getValidValues());
+		for (int j = 0 ; j < 5 ; j++){
+				System.out.println(mat.getAttributes()[j]);
+				System.out.println(i + " - "+ j);
+				System.out.println(mat.getData()[i][j]);
+			}
+		}
+		*/
+	}
 
 
 	public static Matrix parseFile(String fileURL) throws IOException{
@@ -44,6 +61,8 @@ public class Parser {
 			line = br.readLine();
 		}
 		
+		System.out.println("att "+ nbAttributes +" ex" + nbExamples);
+		
 		///// parsing//////////////////////////////////////////////////////////////////////////////////	
 		
 		fis = new FileInputStream(fileURL);
@@ -52,7 +71,7 @@ public class Parser {
 		line = br.readLine().trim();
 		
 		int i = 0;
-		String data[][] = new String[nbAttributes][nbExamples];
+		String data[][] = new String[nbExamples][nbAttributes];
 		String [] attributes = new String[nbAttributes];
 		Map <String, List<String>> validValues = new TreeMap<String, List<String>>();
 	
@@ -64,9 +83,9 @@ public class Parser {
 				String tempVal;
 				String tempLine = line.substring(line.indexOf(' ')).trim();
 				String tempAttribute = tempLine.substring(0, tempLine.indexOf('{')).trim().replace("'", "");
-				tempLine = tempLine.substring(tempLine.indexOf('{') + 1, tempLine.indexOf('}') - 1).replace("'", "");
+				tempLine = tempLine.substring(tempLine.indexOf('{') + 1, tempLine.indexOf('}')).replace("'", "");
 				while(tempLine.contains(",")){
-					tempVal = tempLine.substring(0, tempLine.indexOf(",")-1);
+					tempVal = tempLine.substring(0, tempLine.indexOf(","));
 					tempList.add(tempVal);
 					tempLine = tempLine.replace(tempVal+",", "").trim();
 				}
@@ -79,8 +98,33 @@ public class Parser {
 				i++;
 			}
 			else if (optionalString("@data", line)){
-				
-			}
+				int j = 0;
+				String tempArg;
+				while(line != null && !line.contains("%")){
+					line = br.readLine();
+					if (line == null)
+						break;
+					String tempLine = line.trim();
+					
+					i = 0;
+					while(tempLine.length() != 0){						
+						if (tempLine.contains(",")){
+							tempArg = tempLine.substring(0, tempLine.indexOf(",")).trim();
+							tempLine = tempLine.replace(tempArg+",", "");
+						}
+						else {
+							tempArg = tempLine.trim();
+							tempLine = tempLine.replace(tempArg, "");	
+						}
+						System.out.println(" i/j/arg " + i + " " + j + " " + tempArg);
+						data[j][i] = tempArg;					
+						i++;
+					}
+					System.out.println(i + "     " +j);
+					j++;		
+					
+				}				
+			}	
 			
 			line = br.readLine();
 		}
