@@ -33,15 +33,14 @@ public class ComputeTest {
 
 	@Test
 	public void testGain() {
-		List<Node> nodeList = Main.createFirstNode(matrix);
+		List<Node> nodeList = Main.createFirstNodes(matrix);
 		for (Node currentNode : nodeList) {
 			double gain = Compute.gain(currentNode, matrix);
-			if (currentNode.getAttribute().equals("outlook")) {
-				System.err.println(currentNode.getAttribute() + " : " +gain);
-				System.err.println(currentNode.getEntropy());
-				for (String key : currentNode.getEntropies().keySet()) {
-					System.err.println("\t" +key + " : " + currentNode.getEntropies().get(key));
-				}
+		//	System.err.println(currentNode.getAttribute() + " : " +gain);
+		//	System.err.println(currentNode.getEntropy());
+			for (String key : currentNode.getEntropies().keySet()) {
+				System.err.println("\t" +key + " : " + currentNode.getEntropies().get(key));
+				
 			}
 		}
 	}

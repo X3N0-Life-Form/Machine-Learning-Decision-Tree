@@ -71,4 +71,8 @@ public class Matrix {
 		}
 		return attributeIndex;
 	}
+
+	public String getClassAttribute() {
+		return attributes[attributes.length -1];
+	}
 }
