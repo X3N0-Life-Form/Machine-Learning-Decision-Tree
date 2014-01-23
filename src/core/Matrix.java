@@ -41,5 +41,34 @@ public class Matrix {
 		this.validValues = validValues;
 	}
 	
+	public String getPositiveClass() {
+		return getValidValues().get(attributes[attributes.length - 1]).get(0);
+	}
 	
+	public int getNumberOfExamples(String attribute, String value) {
+		int total = 0;
+		int attributeIndex = getAttributeIndex(attribute);
+		for (String[] row : data) {
+			if (row[attributeIndex].equals(value)) {
+				total++;
+			}
+		}
+		return total;
+	}
+
+	/**
+	 * 
+	 * @param attribute
+	 * @return -1 if the attribute could not be found.
+	 */
+	public int getAttributeIndex(String attribute) {
+		int attributeIndex = -1;
+		for (int i = 0; i < attributes.length; i++) {
+			if (attributes[i].equals(attribute)) {
+				attributeIndex = i;
+				break;
+			}
+		}
+		return attributeIndex;
+	}
 }
