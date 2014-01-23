@@ -1,4 +1,4 @@
-package Parse;
+package parse;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -15,20 +15,20 @@ import core.Matrix;
 public class Parser {
 	
 	public static void main(String[] args) throws IOException{
-		Matrix mat = parseFile("res/iris.arff");
+		Matrix mat = parseFile("resources/data/weather.nominal.arff");
 		
 		//att 5 ex 14
-		/*
+		
 		for (int i = 0; i < 14 ; i++){
 			//System.out.println(i);
-			//System.out.println(mat.getValidValues());
+			System.out.println(mat.getValidValues());
 		for (int j = 0 ; j < 5 ; j++){
 				System.out.println(mat.getAttributes()[j]);
 				System.out.println(i + " - "+ j);
 				System.out.println(mat.getData()[i][j]);
 			}
 		}
-		*/
+		
 	}
 
 
@@ -90,6 +90,7 @@ public class Parser {
 					tempLine = tempLine.replace(tempVal+",", "").trim();
 				}
 				tempVal = tempLine.trim();
+				tempList.add(tempVal);
 				if (i < nbAttributes - 1){
 					tempList.add("?");
 				}
@@ -116,11 +117,9 @@ public class Parser {
 							tempArg = tempLine.trim();
 							tempLine = tempLine.replace(tempArg, "");	
 						}
-						System.out.println(" i/j/arg " + i + " " + j + " " + tempArg);
 						data[j][i] = tempArg;					
 						i++;
 					}
-					System.out.println(i + "     " +j);
 					j++;		
 					
 				}				
