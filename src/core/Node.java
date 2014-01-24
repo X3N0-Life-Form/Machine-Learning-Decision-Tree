@@ -13,6 +13,11 @@ public class Node implements INode {
 	 * Note: First node's father is null.
 	 */
 	private Node father = null;
+	/**
+	 * Key = attribute; value = value
+	 * Note: First node's required is null.
+	 */
+	private Map<String, String> required = null;
 	
 	/**
 	 * Note: keys must be identical to those in sons map.
@@ -35,6 +40,7 @@ public class Node implements INode {
 	public Node(String attribute, Node father) {
 		this(attribute);
 		this.setFather(father);
+		this.required = new TreeMap<String, String>(father.required);
 	}
 
 	public String getAttribute() {
@@ -103,5 +109,17 @@ public class Node implements INode {
 
 	public void setProportions(Map<String, Double> proportions) {
 		this.proportions = proportions;
+	}
+
+	public Map<String, String> getRequired() {
+		return required;
+	}
+
+	public void setRequired(Map<String, String> required) {
+		this.required = required;
+	}
+
+	public void addRequired(String attribute, String currentValue) {
+		required.put(attribute, currentValue);
 	}
 }

@@ -7,6 +7,7 @@ import java.util.List;
 import parse.Parser;
 
 import compute.Compute;
+import core.Leaf;
 import core.Matrix;
 import core.Node;
 
@@ -31,6 +32,22 @@ public class Main {
 		List<Node> firstNodes = createFirstNodes(matrix);
 		root = chooseBest(firstNodes, matrix);
 		System.out.println(" the chosen root is : " + root.getAttribute());
+		createSons(root, matrix);
+	}
+
+	public static void createSons(Node node, Matrix matrix) {
+		List<String> values = matrix.getValidValues().get(node.getAttribute());
+		for (String currentValue : values) {
+			if (node.getProportions().get(currentValue) != 0.0) {
+				if (node.getEntropies().get(currentValue) == 0.0) {
+					node.addSon(currentValue, new Leaf(node));
+				} else {
+					Node son = new Node("TBD", node);
+					son.addRequired(node.getAttribute(), currentValue);
+					node.addSon(currentValue, son);
+				}
+			}
+		}
 	}
 
 	public static List<Node> createFirstNodes(Matrix matrix) {
@@ -71,6 +88,8 @@ public class Main {
 		double tempGain = 0;
 		for (Node currentNode : nodeList){
 			double currentGain = Compute.gain(currentNode, matrix);
+			System.err.println("" + currentNode.getAttribute());
+			System.err.println(" ----- " + currentGain);
 			if (tempNode == null){
 				tempNode = currentNode;
 				tempGain = currentGain ;

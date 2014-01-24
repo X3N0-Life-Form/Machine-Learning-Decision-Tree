@@ -91,9 +91,9 @@ public class Parser {
 				}
 				tempVal = tempLine.trim();
 				tempList.add(tempVal);
-				if (i < nbAttributes - 1){
+			/*	if (i < nbAttributes - 1){
 					tempList.add("?");
-				}
+				}*/
 				attributes[i] = tempAttribute;
 				validValues.put(tempAttribute, tempList);
 				i++;

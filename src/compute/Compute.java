@@ -68,11 +68,10 @@ public class Compute {
 	public static double gain(Node node, Matrix matrix) {
 		double entropy = node.getEntropy();
 		for (String currentValue : matrix.getValidValues().get(node.getAttribute())) {
-		/*	System.out.println("currentValue  " + currentValue);
+			System.out.println("currentValue  " + currentValue);
 			System.out.println("old entropy " + entropy);
 			System.out.println(" currententropy  " + node.getEntropies().get(currentValue));
 			System.out.println("currentProportion " + node.getProportions().get(currentValue) );
-			System.out.println(" minus  " + node.getEntropies().get(currentValue) * node.getProportions().get(currentValue));*/
 			entropy -= node.getEntropies().get(currentValue) * node.getProportions().get(currentValue);
 		//	System.out.println("new entropy  " + entropy);
 		}

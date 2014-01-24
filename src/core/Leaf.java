@@ -8,6 +8,11 @@ public class Leaf implements INode {
 		this.ok = ok;
 	}
 	
+
+	public Leaf(Node father) {
+		// TODO Auto-generated constructor stub
+	}
+
 	public boolean isOk() {
 		return ok;
 	}
