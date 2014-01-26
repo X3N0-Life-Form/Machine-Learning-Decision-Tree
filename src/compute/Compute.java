@@ -54,7 +54,7 @@ public class Compute {
 		} else {
 			double pp = (double) positiveCount / (double) valueCount;
 			double pm = (double) negativeCount / (double) valueCount;
-			return - pp * Math.log(pp) - pm * Math.log(pm);
+			return - pp * (Math.log(pp)/Math.log(2)) - pm * (Math.log(pm)/Math.log(2));
 		}
 	}
 	
