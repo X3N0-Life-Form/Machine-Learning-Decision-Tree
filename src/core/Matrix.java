@@ -72,7 +72,39 @@ public class Matrix {
 		return attributeIndex;
 	}
 
+	/**
+	 * 
+	 * @return String value of the class attribute.
+	 */
 	public String getClassAttribute() {
 		return attributes[attributes.length -1];
+	}
+
+	/**
+	 * 
+	 * @return int index of the class attribute.
+	 */
+	public int getClassAttributeIndex() {
+		return attributes.length - 1;
+	}
+	
+	/**
+	 * 
+	 * @param attribute
+	 * @param currentValue
+	 * @return boolean true if the class value was positive.
+	 */
+	public boolean getFirstClassValue(String attribute, String currentValue) {
+		int index = getAttributeIndex(attribute);
+		for (int i = 0; i < data.length; i++) {
+			if (data[i][index].equals(currentValue)) {
+				if (data[i][getClassAttributeIndex()].equals(getPositiveClass())) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+		}
+		return false;
 	}
 }

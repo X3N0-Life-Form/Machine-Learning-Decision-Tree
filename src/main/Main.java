@@ -3,6 +3,8 @@ package main;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import parse.Parser;
 
@@ -28,11 +30,19 @@ public class Main {
 	public static void main(String[] args) throws IOException {
 		//TODO handle args
 		
+		//Map <String, String> req = new TreeMap<String, String>();
 		Matrix matrix = Parser.parseFile(testFile);
 		List<Node> firstNodes = createFirstNodes(matrix);
 		root = chooseBest(firstNodes, matrix);
 		System.out.println(" the chosen root is : " + root.getAttribute());
+		/*for (String currentAttribute : root.getEntropies().keySet()){
+			if (root.getEntropies().get(currentAttribute) > 0){
+				
+			}
+		}*/
+		
 		createSons(root, matrix);
+		
 	}
 
 	public static void createSons(Node node, Matrix matrix) {
@@ -40,7 +50,8 @@ public class Main {
 		for (String currentValue : values) {
 			if (node.getProportions().get(currentValue) != 0.0) {
 				if (node.getEntropies().get(currentValue) == 0.0) {
-					node.addSon(currentValue, new Leaf(node));
+					boolean classValue = matrix.getFirstClassValue(node.getAttribute(), currentValue);
+					node.addSon(currentValue, new Leaf(node, classValue));
 				} else {
 					Node son = new Node("TBD", node);
 					son.addRequired(node.getAttribute(), currentValue);
@@ -71,11 +82,8 @@ public class Main {
 			node.setEntropy(Compute.calculateEntropy(totalPositive, totalNegative, total));
 			
 			for (String currentValue : matrix.getValidValues().get(currentAttribute)) {
-				//System.out.println(currentValue);
-				node.addEntropy(currentValue, Compute.entropy(currentAttribute, currentValue, matrix));
-				int totalValue = matrix.getNumberOfExamples(currentAttribute, currentValue);
-				//System.out.println("total " + totalValue);
-				node.addProportion(currentValue, (double) totalValue / (double) total);
+				node.addEntropy(currentValue, Compute.entropy(currentAttribute, currentValue, matrix, null));
+				node.addProportion(currentValue, Compute.proportions(node, matrix, currentValue, null));
 			}
 			
 			nodeList.add(node);

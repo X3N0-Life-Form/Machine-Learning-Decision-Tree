@@ -115,7 +115,7 @@ public class Parser {
 						}
 						else {
 							tempArg = tempLine.trim();
-							tempLine = tempLine.replace(tempArg, "");	
+							tempLine = tempLine.replace(tempArg, "");
 						}
 						data[j][i] = tempArg;					
 						i++;

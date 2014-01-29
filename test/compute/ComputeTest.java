@@ -26,7 +26,7 @@ public class ComputeTest {
 
 	//@Test
 	public void testEntropy() {
-		double result = Compute.entropy("outlook", "sunny", matrix);
+		double result = Compute.entropy("outlook", "sunny", matrix, null);
 		assertTrue(result > 0.0);
 		assertTrue(result < 1.0);
 	}

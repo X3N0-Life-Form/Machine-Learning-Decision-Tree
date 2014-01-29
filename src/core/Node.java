@@ -40,7 +40,11 @@ public class Node implements INode {
 	public Node(String attribute, Node father) {
 		this(attribute);
 		this.setFather(father);
-		this.required = new TreeMap<String, String>(father.required);
+		if (father.required != null) {
+			this.required = new TreeMap<String, String>(father.required);
+		} else {
+			this.required = new TreeMap<String, String>();
+		}
 	}
 
 	public String getAttribute() {

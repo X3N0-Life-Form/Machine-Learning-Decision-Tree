@@ -1,5 +1,9 @@
 package compute;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import core.Matrix;
 import core.Node;
 
@@ -15,9 +19,10 @@ public class Compute {
 	 * @param attribute
 	 * @param value
 	 * @param matrix
+	 * @param requiredValues set to null if it isn't required.
 	 * @return
 	 */
-	public static double entropy(String attribute, String value, Matrix matrix) {
+	public static double entropy(String attribute, String value, Matrix matrix, Map<String, String> requiredValues) {
 		int attributeIndex = matrix.getAttributeIndex(attribute);
 		
 		int valueCount = 0;
@@ -25,7 +30,7 @@ public class Compute {
 		int negativeCount = 0;
 		String o = matrix.getPositiveClass();
 		for (String[] row : matrix.getData()) {
-			if (row[attributeIndex].equals(value)) {
+			if (row[attributeIndex].equals(value) && hasRequiredValues(row, requiredValues, matrix)) {
 				valueCount++;
 				
 				if (row[row.length - 1].equals(o)) {
@@ -39,6 +44,26 @@ public class Compute {
 		return calculateEntropy(positiveCount, negativeCount, valueCount);
 	}
 	
+	/**
+	 * 
+	 * @param row
+	 * @param requiredValues
+	 * @param matrix
+	 * @return boolean true if the row contains all the required values.
+	 */
+	public static boolean hasRequiredValues(String[] row, Map<String, String> requiredValues, Matrix matrix) {
+		if (requiredValues == null) {
+			return true;
+		}
+		for (String currentAttribute : requiredValues.keySet()) {
+			int i = matrix.getAttributeIndex(currentAttribute);
+			if (!row[i].equals(requiredValues.get(currentAttribute))) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	/**
 	 * Generic entropy calculation method.
 	 * @param positiveCount
@@ -67,6 +92,7 @@ public class Compute {
 	 */
 	public static double gain(Node node, Matrix matrix) {
 		double entropy = node.getEntropy();
+	
 		for (String currentValue : matrix.getValidValues().get(node.getAttribute())) {
 			System.out.println("currentValue  " + currentValue);
 			System.out.println("old entropy " + entropy);
@@ -76,6 +102,35 @@ public class Compute {
 		//	System.out.println("new entropy  " + entropy);
 		}
 		// Note: entropy is now equal to our gain.
+	
 		return entropy;
+	}
+	
+	/**
+	 * 
+	 * @param node
+	 * @param matrix
+	 * @param value
+	 * @param requiredValues set to null if this isn't required
+	 * @return
+	 */
+	public static double proportions(Node node, Matrix matrix, String value, Map<String, String> requiredValues) {
+		int total = 0;
+		int totalValue = 0;
+		if (requiredValues == null) {
+			total = matrix.getData().length;
+			totalValue = matrix.getNumberOfExamples(node.getAttribute(), value);
+		} else {
+			for (String[] row : matrix.getData()) {
+				if (hasRequiredValues(row, requiredValues, matrix)) {
+					total++;
+					if (row[matrix.getAttributeIndex(node.getAttribute())].equals(value)) {
+						totalValue++;
+					}
+				}
+			}
+		}
+		
+		return (double) totalValue / (double) total;
 	}
 }
