@@ -9,6 +9,7 @@ import java.util.TreeMap;
 import parse.Parser;
 
 import compute.Compute;
+import core.INode;
 import core.Leaf;
 import core.Matrix;
 import core.Node;
@@ -32,17 +33,19 @@ public class Main {
 		
 		//Map <String, String> req = new TreeMap<String, String>();
 		Matrix matrix = Parser.parseFile(testFile);
-		List<Node> firstNodes = createFirstNodes(matrix);
+		List<Node> firstNodes = createNodes(matrix, root);
 		root = chooseBest(firstNodes, matrix);
 		System.out.println(" the chosen root is : " + root.getAttribute());
-		/*for (String currentAttribute : root.getEntropies().keySet()){
-			if (root.getEntropies().get(currentAttribute) > 0){
-				
-			}
-		}*/
 		
 		createSons(root, matrix);
-		
+		for (String key : root.getSons().keySet()) {
+			INode son = root.getSons().get(key);
+			if (!(son instanceof Leaf)) {
+				List<Node> nodes = createNodes(matrix, (Node) son);
+				Node best = chooseBest(nodes, matrix);
+				System.out.println("print de batard de la mort qui tue -->" + best.getAttribute());
+			}
+		}
 	}
 
 	public static void createSons(Node node, Matrix matrix) {
@@ -60,21 +63,51 @@ public class Main {
 			}
 		}
 	}
-
-	public static List<Node> createFirstNodes(Matrix matrix) {
-		ArrayList<Node> nodeList = new ArrayList<Node>(matrix.getAttributes().length);
-		int total = matrix.getData().length;
+	
+	/**
+	 * 
+	 * @param matrix
+	 * @param skeletonWarriorNode set to null for first node
+	 * @return
+	 */
+	public static List<Node> createNodes(Matrix matrix, Node skeletonWarriorNode) {
+		ArrayList<Node> nodeList = null;
 		int totalPositive = 0;
-		for (String[] row : matrix.getData()) {
-			if (row[row.length - 1].equals(matrix.getPositiveClass())) {
-				totalPositive++;
+		int total = 0;
+		if (skeletonWarriorNode == null) {
+			nodeList = new ArrayList<Node>(matrix.getAttributes().length);
+			total = matrix.getData().length;
+			for (String[] row : matrix.getData()) {
+				if (row[row.length - 1].equals(matrix.getPositiveClass())) {
+					totalPositive++;
+				}
 			}
+			
+		} else {
+			nodeList = new ArrayList<Node>(matrix.getAttributes().length - skeletonWarriorNode.getRequired().size());
+			for (String[] row : matrix.getData()) { // partially copy pasted from Compute.proportions()
+				if (Compute.hasRequiredValues(row, skeletonWarriorNode.getRequired(), matrix)) {
+					total++;
+					if (row[row.length - 1].equals(matrix.getPositiveClass())) {
+						totalPositive++;
+					}
+				}
+			}
+			
+			
 		}
+		
 		int totalNegative = total - totalPositive;
 		
+		Map<String, String> requiredValues = null;
+		if (skeletonWarriorNode != null) {
+			requiredValues = skeletonWarriorNode.getRequired();
+		}
 		for (String currentAttribute : matrix.getAttributes()) {
 			if (currentAttribute.equals(matrix.getClassAttribute())){
 				break;
+			} else if (requiredValues != null && requiredValues.containsKey(currentAttribute)) {
+				continue;
 			}
 			Node node = new Node(currentAttribute);
 			node.setTotalPositives(totalPositive);
@@ -82,8 +115,8 @@ public class Main {
 			node.setEntropy(Compute.calculateEntropy(totalPositive, totalNegative, total));
 			
 			for (String currentValue : matrix.getValidValues().get(currentAttribute)) {
-				node.addEntropy(currentValue, Compute.entropy(currentAttribute, currentValue, matrix, null));
-				node.addProportion(currentValue, Compute.proportions(node, matrix, currentValue, null));
+				node.addEntropy(currentValue, Compute.entropy(currentAttribute, currentValue, matrix, requiredValues));
+				node.addProportion(currentValue, Compute.proportions(node, matrix, currentValue, requiredValues));
 			}
 			
 			nodeList.add(node);
@@ -91,6 +124,12 @@ public class Main {
 		return nodeList;
 	}
 	
+	/**
+	 * Choose the best node amongst a list of nodes.
+	 * @param nodeList
+	 * @param matrix
+	 * @return
+	 */
 	public static Node chooseBest(List<Node> nodeList, Matrix matrix){
 		Node tempNode = null;
 		double tempGain = 0;
