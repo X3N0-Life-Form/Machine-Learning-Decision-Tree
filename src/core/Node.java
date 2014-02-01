@@ -126,4 +126,49 @@ public class Node implements INode {
 	public void addRequired(String attribute, String currentValue) {
 		required.put(attribute, currentValue);
 	}
+	
+	public String ourToString(int depth) {
+		String tab = "";
+		for (int i = 0; i < depth; i++) {
+			tab += "\t";
+		}
+		String temp = tab + "Attribute = " + attribute + "; Entropy = " + entropy;
+		for (String currentSon : sons.keySet()) {
+			INode actualSon = sons.get(currentSon);
+			temp += "\n" + actualSon.ourToString(depth + 1);
+		}
+		return temp;
+	}
+	
+	/**
+	 * Fusion dance.
+	 * @param best
+	 */
+	public void fusion(Node best) {
+		this.attribute = best.attribute;
+		this.entropies = best.entropies;
+		this.entropy = best.entropy;
+		this.proportions = best.proportions;
+		this.totalPositives = best.totalPositives;
+		this.totalNegatives = best.totalNegatives;
+	}
+
+	/**
+	 * 
+	 * @return boolean true if every branch ends with a Leaf.
+	 */
+	public boolean isComplete() {
+		if (sons == null || sons.size() == 0) {
+			return false;
+		}
+		for (String currentSon : sons.keySet()) {
+			INode son = sons.get(currentSon);
+			if (son.isComplete()) {
+				continue;
+			} else {
+				return false;
+			}
+		}
+		return true;
+	}
 }

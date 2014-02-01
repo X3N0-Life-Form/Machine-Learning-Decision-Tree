@@ -24,37 +24,55 @@ public class Main {
 	public static Node root = null;
 	public static final String testFile = "resources/data/weather.nominal.arff";
 	//TODO read that off the command line
-	public static int maxDepth;
+	public static int maxDepth = 5;
 	public static String fileName;
 	public static double impurity;
 
 	public static void main(String[] args) throws IOException {
 		//TODO handle args
 		
-		//Map <String, String> req = new TreeMap<String, String>();
+		
 		Matrix matrix = Parser.parseFile(testFile);
+		
 		List<Node> firstNodes = createNodes(matrix, root);
 		root = chooseBest(firstNodes, matrix);
-		System.out.println(" the chosen root is : " + root.getAttribute());
+		createSons(root, matrix, 0);
 		
-		createSons(root, matrix);
-		for (String key : root.getSons().keySet()) {
-			INode son = root.getSons().get(key);
+		int currentDepth = 1;
+		Node currentNode = root;
+		
+		hjvo(matrix, currentNode, currentDepth);
+		System.out.println(root.ourToString(0));
+	}
+
+	public static void hjvo(Matrix matrix, Node currentNode, int currentDepth) {
+		for (String key : currentNode.getSons().keySet()) {
+			INode son = currentNode.getSons().get(key);
 			if (!(son instanceof Leaf)) {
 				List<Node> nodes = createNodes(matrix, (Node) son);
 				Node best = chooseBest(nodes, matrix);
-				System.out.println("print de batard de la mort qui tue -->" + best.getAttribute());
+				((Node) son).fusion(best);
+			}
+		}
+		
+		for (String key : currentNode.getSons().keySet()) {
+			INode son = currentNode.getSons().get(key);
+			if (!(son instanceof Leaf)) {
+				createSons((Node) son, matrix, currentDepth);
+				hjvo(matrix, (Node) son, currentDepth + 1);
 			}
 		}
 	}
 
-	public static void createSons(Node node, Matrix matrix) {
+	public static void createSons(Node node, Matrix matrix, int currentDepth) {
 		List<String> values = matrix.getValidValues().get(node.getAttribute());
 		for (String currentValue : values) {
 			if (node.getProportions().get(currentValue) != 0.0) {
 				if (node.getEntropies().get(currentValue) == 0.0) {
-					boolean classValue = matrix.getFirstClassValue(node.getAttribute(), currentValue);
-					node.addSon(currentValue, new Leaf(node, classValue));
+					String classValue = matrix.getFirstClassValue(node.getAttribute(), currentValue, node.getRequired());
+					node.addSon(currentValue, new Leaf(node, classValue, currentValue));
+				} else if (currentDepth == maxDepth - 1) {
+					
 				} else {
 					Node son = new Node("TBD", node);
 					son.addRequired(node.getAttribute(), currentValue);
@@ -135,8 +153,8 @@ public class Main {
 		double tempGain = 0;
 		for (Node currentNode : nodeList){
 			double currentGain = Compute.gain(currentNode, matrix);
-			System.err.println("" + currentNode.getAttribute());
-			System.err.println(" ----- " + currentGain);
+			//System.err.println("" + currentNode.getAttribute());
+			//System.err.println(" ----- " + currentGain);
 			if (tempNode == null){
 				tempNode = currentNode;
 				tempGain = currentGain ;

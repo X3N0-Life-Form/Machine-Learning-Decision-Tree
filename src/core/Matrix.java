@@ -3,6 +3,8 @@ package core;
 import java.util.List;
 import java.util.Map;
 
+import compute.Compute;
+
 public class Matrix {
 
 	private String data[][];
@@ -92,19 +94,15 @@ public class Matrix {
 	 * 
 	 * @param attribute
 	 * @param currentValue
-	 * @return boolean true if the class value was positive.
+	 * @return
 	 */
-	public boolean getFirstClassValue(String attribute, String currentValue) {
+	public String getFirstClassValue(String attribute, String currentValue, Map<String, String> required) {
 		int index = getAttributeIndex(attribute);
 		for (int i = 0; i < data.length; i++) {
-			if (data[i][index].equals(currentValue)) {
-				if (data[i][getClassAttributeIndex()].equals(getPositiveClass())) {
-					return true;
-				} else {
-					return false;
-				}
+			if (Compute.hasRequiredValues(data[i], required, this) && data[i][index].equals(currentValue)) {
+				return data[i][getClassAttributeIndex()];
 			}
 		}
-		return false;
+		return "";
 	}
 }

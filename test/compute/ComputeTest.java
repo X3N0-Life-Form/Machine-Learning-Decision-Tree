@@ -33,7 +33,7 @@ public class ComputeTest {
 
 	@Test
 	public void testGain() {
-		List<Node> nodeList = Main.createFirstNodes(matrix);
+		List<Node> nodeList = Main.createNodes(matrix, null);
 		for (Node currentNode : nodeList) {
 			double gain = Compute.gain(currentNode, matrix);
 		//	System.err.println(currentNode.getAttribute() + " : " +gain);

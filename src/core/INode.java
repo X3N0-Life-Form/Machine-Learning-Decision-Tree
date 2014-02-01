@@ -7,4 +7,8 @@ package core;
  */
 public interface INode {
 
+	public String ourToString(int i);
+
+	public boolean isComplete();
+
 }

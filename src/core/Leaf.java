@@ -2,20 +2,30 @@ package core;
 
 public class Leaf implements INode {
 
-	private boolean classValue;
+	private String classValue;
 	private Node father;
-	
-	public Leaf(boolean ok) {
-		this.classValue = ok;
-	}
+	private String attributeValue;
 	
 
-	public Leaf(Node father, boolean classValue) {
+	public Leaf(Node father, String classValue, String attributeValue) {
 		this.father = father;
 		this.classValue = classValue;
+		this.attributeValue = attributeValue;
 	}
 
-	public boolean isOk() {
-		return classValue;
+
+	@Override
+	public String ourToString(int depth) {
+		String tab = "";
+		for (int i = 0; i < depth; i++) {
+			tab += "\t";
+		}
+		return tab + "Class Value = " + classValue + " for attribute " + father.getAttribute() + " with value " + attributeValue;
+	}
+
+
+	@Override
+	public boolean isComplete() {
+		return true;
 	}
 }
