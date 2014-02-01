@@ -2,6 +2,7 @@ package core;
 
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import compute.Compute;
 
@@ -104,5 +105,31 @@ public class Matrix {
 			}
 		}
 		return "";
+	}
+
+	public String getDominantClassValue(String attribute, String currentValue, Map<String, String> required) {
+		int index = getAttributeIndex(attribute);
+		Map<String, Integer> counters = new TreeMap<String, Integer>();
+		List<String> validClassValues = validValues.get(getClassAttribute());
+		for (String currentClassValue : validClassValues) {
+			counters.put(currentClassValue, 0);
+		}
+		
+		for (int i = 0; i < data.length; i++) {
+			if (Compute.hasRequiredValues(data[i], required, this) && data[i][index].equals(currentValue)) {
+				String classValue = data[i][getClassAttributeIndex()];
+				Integer value = counters.get(classValue);
+				counters.put(classValue, value + 1);
+			}
+		}
+		
+		String dominant = "DOMINATING";
+		counters.put(dominant, 0);
+		for (String current : counters.keySet()) {
+			if (counters.get(dominant) < counters.get(current)) {
+				dominant = current;
+			}
+		}
+		return dominant;
 	}
 }

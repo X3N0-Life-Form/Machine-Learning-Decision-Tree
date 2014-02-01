@@ -2,7 +2,6 @@ package parse;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -14,7 +13,7 @@ import core.Matrix;
 
 public class Parser {
 	
-	public static void main(String[] args) throws IOException{
+	/*public static void main(String[] args) throws IOException{ //TODO put this in test case
 		Matrix mat = parseFile("resources/data/weather.nominal.arff");
 		
 		//att 5 ex 14
@@ -29,7 +28,7 @@ public class Parser {
 			}
 		}
 		
-	}
+	}*/
 
 
 	public static Matrix parseFile(String fileURL) throws IOException{
@@ -61,7 +60,8 @@ public class Parser {
 			line = br.readLine();
 		}
 		
-		System.out.println("att "+ nbAttributes +" ex" + nbExamples);
+		System.out.println("Number of attributes: "+ nbAttributes);
+		System.out.println("Number of examples: " + nbExamples);
 		
 		///// parsing//////////////////////////////////////////////////////////////////////////////////	
 		

@@ -127,6 +127,12 @@ public class Node implements INode {
 		required.put(attribute, currentValue);
 	}
 	
+	@Override
+	public String toString() {
+		return ourToString(0);
+	}
+	
+	@Override
 	public String ourToString(int depth) {
 		String tab = "";
 		for (int i = 0; i < depth; i++) {
@@ -170,5 +176,14 @@ public class Node implements INode {
 			}
 		}
 		return true;
+	}
+
+	public boolean isPureEnough(double impurity) {
+		for (String currentProportion : proportions.keySet()){
+			if (1 - proportions.get(currentProportion) <= impurity){
+				return true;
+			}
+		}		
+		return false;
 	}
 }

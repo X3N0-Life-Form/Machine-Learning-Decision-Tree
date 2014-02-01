@@ -4,11 +4,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 import parse.Parser;
 
 import compute.Compute;
+
 import core.INode;
 import core.Leaf;
 import core.Matrix;
@@ -22,17 +22,18 @@ import core.Node;
 public class Main {
 	
 	public static Node root = null;
-	public static final String testFile = "resources/data/weather.nominal.arff";
-	//TODO read that off the command line
-	public static int maxDepth = 5;
-	public static String fileName;
-	public static double impurity;
+	public static final String TEST_FILE = "resources/data/weather.nominal.arff";
+	
+	private static int maxDepth = 5;
+	private static String fileName = TEST_FILE;
+	private static double impurity = 0.05;
 
 	public static void main(String[] args) throws IOException {
-		//TODO handle args
 		
+		handleArgs(args);
+		printRecap();
 		
-		Matrix matrix = Parser.parseFile(testFile);
+		Matrix matrix = Parser.parseFile(fileName);
 		
 		List<Node> firstNodes = createNodes(matrix, root);
 		root = chooseBest(firstNodes, matrix);
@@ -43,6 +44,38 @@ public class Main {
 		
 		hjvo(matrix, currentNode, currentDepth);
 		System.out.println(root.ourToString(0));
+	}
+
+	public static void printRecap() {
+		System.out.println("File:\t" + fileName);
+		System.out.println("Max depth:\t" + maxDepth);
+		System.out.println("Impurity:\t" + impurity);
+	}
+
+	private static void handleArgs(String[] args) {
+		for (int i = 0; i < args.length; i++) {
+			String currentArg = args[i];
+			switch (currentArg) {
+			case "-file":
+				fileName = args[++i];
+				break;
+			case "-maxDepth":
+				maxDepth = Integer.parseInt(args[++i]);
+				if (maxDepth < 1) {
+					maxDepth = 1;
+				}
+				break;
+			case "-impurity":
+				impurity = Integer.parseInt(args[++i]);
+				if (impurity < 0) {
+					impurity = 0;
+				} else if (impurity > 1) {
+					impurity = 1;
+				}
+			default:
+				System.err.println("Unrecognised argument:" + currentArg);
+			}
+		}
 	}
 
 	public static void hjvo(Matrix matrix, Node currentNode, int currentDepth) {
@@ -71,8 +104,9 @@ public class Main {
 				if (node.getEntropies().get(currentValue) == 0.0) {
 					String classValue = matrix.getFirstClassValue(node.getAttribute(), currentValue, node.getRequired());
 					node.addSon(currentValue, new Leaf(node, classValue, currentValue));
-				} else if (currentDepth == maxDepth - 1) {
-					
+				} else if (currentDepth == maxDepth - 1 || node.isPureEnough(impurity)) {
+					String classValue = matrix.getDominantClassValue(node.getAttribute(), currentValue, node.getRequired());
+					node.addSon(currentValue, new Leaf(node, classValue, currentValue));
 				} else {
 					Node son = new Node("TBD", node);
 					son.addRequired(node.getAttribute(), currentValue);
@@ -153,8 +187,6 @@ public class Main {
 		double tempGain = 0;
 		for (Node currentNode : nodeList){
 			double currentGain = Compute.gain(currentNode, matrix);
-			//System.err.println("" + currentNode.getAttribute());
-			//System.err.println(" ----- " + currentGain);
 			if (tempNode == null){
 				tempNode = currentNode;
 				tempGain = currentGain ;

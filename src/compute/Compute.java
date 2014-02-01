@@ -1,7 +1,5 @@
 package compute;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import core.Matrix;
@@ -92,18 +90,11 @@ public class Compute {
 	 */
 	public static double gain(Node node, Matrix matrix) {
 		double entropy = node.getEntropy();
-	//	System.out.println("Attribute "+ node.getAttribute() + " entropy " + node.getEntropy());
 		
 		for (String currentValue : matrix.getValidValues().get(node.getAttribute())) {
-		//	System.out.println("currentValue  " + currentValue);
-		//	System.out.println("old entropy " + entropy);
-		//	System.out.println(" currententropy  " + node.getEntropies().get(currentValue));
-		//	System.out.println("currentProportion " + node.getProportions().get(currentValue) );
 			entropy -= node.getEntropies().get(currentValue) * node.getProportions().get(currentValue);
-		//	System.out.println("new entropy  " + entropy);
 		}
-		// Note: entropy is now equal to our gain.
-	
+		// Note: entropy is now equal to our gain.	
 		return entropy;
 	}
 	
