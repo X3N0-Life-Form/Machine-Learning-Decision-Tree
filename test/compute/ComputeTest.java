@@ -35,6 +35,7 @@ public class ComputeTest {
 	public void testGain() {
 		List<Node> nodeList = Main.createNodes(matrix, null);
 		for (Node currentNode : nodeList) {
+			@SuppressWarnings("unused")
 			double gain = Compute.gain(currentNode, matrix);
 		//	System.err.println(currentNode.getAttribute() + " : " +gain);
 		//	System.err.println(currentNode.getEntropy());

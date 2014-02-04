@@ -31,9 +31,10 @@ public class Parser {
 	}*/
 
 
-	public static Matrix parseFile(String fileURL) throws IOException{
-		
-		//// counting////////////////////////////////////////////////////////////
+	public static Matrix parseFile(String fileURL) throws IOException {
+		//////////////////////////
+		///// Counting Phase /////
+		//////////////////////////
 		
 		FileInputStream fis = new FileInputStream(fileURL);
 		InputStreamReader isr = new InputStreamReader(fis);
@@ -63,8 +64,11 @@ public class Parser {
 		System.out.println("Number of attributes: "+ nbAttributes);
 		System.out.println("Number of examples: " + nbExamples);
 		
-		///// parsing//////////////////////////////////////////////////////////////////////////////////	
+		/////////////////////////
+		///// Parsing Phase /////
+		/////////////////////////
 		
+		fis.close();
 		fis = new FileInputStream(fileURL);
 		isr = new InputStreamReader(fis);
 		br = new BufferedReader(isr);
@@ -128,6 +132,7 @@ public class Parser {
 			line = br.readLine();
 		}
 		
+		br.close();
 		Matrix mat = new Matrix(data, attributes, validValues);
 		return mat;
 	}
