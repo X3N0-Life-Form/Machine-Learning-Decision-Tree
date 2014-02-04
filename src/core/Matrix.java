@@ -70,8 +70,8 @@ public class Matrix {
 	/////////////////////////
 	
 	/**
-	 * We don't do that anymore.
-	 * @return Was supposed to be the 'positive' value of the class attribute.
+	 * Positive = 1 valid value of the class attribute.
+	 * @return The 'positive' value of the class attribute.
 	 */
 	@Deprecated
 	public String getPositiveClass() {

@@ -33,7 +33,10 @@ public class Engine {
 	private static double impurity = DEFAULT_IMPURITY;
 	private static String fileName = DEFAULT_FILE_NAME;
 	
-	static Node root = null;//TODO:privatize / doc this?
+	/**
+	 * Root node, used by Engine and Main.
+	 */
+	protected static Node root = null;
 	
 	///////////////////////////
 	//// Getters / Setters ////

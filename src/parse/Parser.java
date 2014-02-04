@@ -17,24 +17,6 @@ import core.Matrix;
  *
  */
 public class Parser {
-	
-	/*public static void main(String[] args) throws IOException{ //TODO put this in test case
-		Matrix mat = parseFile("resources/data/weather.nominal.arff");
-		
-		//att 5 ex 14
-		
-		for (int i = 0; i < 14 ; i++){
-			//System.out.println(i);
-			System.out.println(mat.getValidValues());
-		for (int j = 0 ; j < 5 ; j++){
-				System.out.println(mat.getAttributes()[j]);
-				System.out.println(i + " - "+ j);
-				System.out.println(mat.getData()[i][j]);
-			}
-		}
-		
-	}*/
-
 
 	/**
 	 * Self explanatory.
