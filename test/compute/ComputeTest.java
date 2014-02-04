@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 import java.util.List;
 
-import main.Main;
+import main.Engine;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -33,7 +33,7 @@ public class ComputeTest {
 
 	@Test
 	public void testGain() {
-		List<Node> nodeList = Main.createNodes(matrix, null);
+		List<Node> nodeList = Engine.createNodes(matrix, null);
 		for (Node currentNode : nodeList) {
 			@SuppressWarnings("unused")
 			double gain = Compute.gain(currentNode, matrix);

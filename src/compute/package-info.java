@@ -2,8 +2,8 @@
  * 
  */
 /**
- * Regroup classes that calculate entropy and gain.
- * @author etudiant
+ * Regroup classes that make various calculations, such as entropy and gain.
+ * @author Adrien Droguet & Sara Tari
  *
  */
 package compute;

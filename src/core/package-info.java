@@ -3,7 +3,7 @@
  */
 /**
  * Contains the core structural classes of the application.
- * @author etudiant
+ * @author Adrien Droguet & Sara Tari
  *
  */
 package core;

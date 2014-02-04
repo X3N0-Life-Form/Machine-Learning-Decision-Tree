@@ -4,14 +4,27 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import compute.Compute;
+import parse.Parser;
 
+import compute.Requirements;
+
+/**
+ * Class representing the information contained in a .arff file.
+ * @author Sara Tari & Adrien Droguet
+ * @see Parser
+ */
 public class Matrix {
 
 	private String data[][];
 	private String attributes[];
 	private Map<String, List<String>> validValues;
 	
+	/**
+	 * Constructs a Matrix object.
+	 * @param data
+	 * @param attributes
+	 * @param validValues
+	 */
 	public Matrix(String[][] data, String attributes[],
 			Map<String, List<String>> validValues) {
 		super();
@@ -20,6 +33,14 @@ public class Matrix {
 		this.validValues = validValues;
 	}
 
+	///////////////////////////
+	//// Getters / Setters ////
+	///////////////////////////
+	
+	/**
+	 * Returns a data row as read from a .arff file.
+	 * @return String[row][attribute value]
+	 */
 	public String[][] getData() {
 		return data;
 	}
@@ -44,10 +65,25 @@ public class Matrix {
 		this.validValues = validValues;
 	}
 	
+	/////////////////////////
+	//// Special Getters ////
+	/////////////////////////
+	
+	/**
+	 * We don't do that anymore.
+	 * @return
+	 */
+	@Deprecated
 	public String getPositiveClass() {
 		return getValidValues().get(attributes[attributes.length - 1]).get(0);
 	}
 	
+	/**
+	 * Counts the number of times the value of an attribute appears.
+	 * @param attribute
+	 * @param value
+	 * @return Number of row containing the specified value.
+	 */
 	public int getNumberOfExamples(String attribute, String value) {
 		int total = 0;
 		int attributeIndex = getAttributeIndex(attribute);
@@ -60,7 +96,7 @@ public class Matrix {
 	}
 
 	/**
-	 * 
+	 * Gets the index of an attribute in a row of the data matrix.
 	 * @param attribute
 	 * @return -1 if the attribute could not be found.
 	 */
@@ -92,21 +128,31 @@ public class Matrix {
 	}
 	
 	/**
-	 * 
+	 * Returns the class value of the first row matching the value of the specified attribute.
+	 * A Map of required attribute/value can be specified.
 	 * @param attribute
 	 * @param currentValue
-	 * @return
+	 * @param required Can be null.
+	 * @return First class value found.
 	 */
 	public String getFirstClassValue(String attribute, String currentValue, Map<String, String> required) {
 		int index = getAttributeIndex(attribute);
 		for (int i = 0; i < data.length; i++) {
-			if (Compute.hasRequiredValues(data[i], required, this) && data[i][index].equals(currentValue)) {
+			if (Requirements.hasRequiredValues(data[i], required, this) && data[i][index].equals(currentValue)) {
 				return data[i][getClassAttributeIndex()];
 			}
 		}
 		return "";
 	}
 
+	/**
+	 * Calculates the dominant class value among rows matching the specified attribute/value.
+	 * A Map of required attribute/value can be specified.
+	 * @param attribute
+	 * @param currentValue
+	 * @param required Can be null.
+	 * @return The dominant class value.
+	 */
 	public String getDominantClassValue(String attribute, String currentValue, Map<String, String> required) {
 		int index = getAttributeIndex(attribute);
 		Map<String, Integer> counters = new TreeMap<String, Integer>();
@@ -116,7 +162,7 @@ public class Matrix {
 		}
 		
 		for (int i = 0; i < data.length; i++) {
-			if (Compute.hasRequiredValues(data[i], required, this) && data[i][index].equals(currentValue)) {
+			if (Requirements.hasRequiredValues(data[i], required, this) && data[i][index].equals(currentValue)) {
 				String classValue = data[i][getClassAttributeIndex()];
 				Integer value = counters.get(classValue);
 				counters.put(classValue, value + 1);

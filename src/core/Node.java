@@ -3,7 +3,16 @@ package core;
 import java.util.Map;
 import java.util.TreeMap;
 
+/**
+ * Class representing a decision tree node.
+ * @author Adrien Droguet & Sara Tari
+ *
+ */
 public class Node implements INode {
+	
+	////////////////////
+	//// Attributes ////
+	////////////////////
 
 	private String attribute;
 	private double entropy;
@@ -29,6 +38,10 @@ public class Node implements INode {
 	private Map<String, INode> sons = new TreeMap<String, INode>();
 	private Map<String, Double> proportions = new TreeMap<String, Double>();
 	
+	//////////////////////
+	//// Constructors ////
+	//////////////////////
+	
 	/**
 	 * Constructs an empty Node for the specified attribute.
 	 * @param attribute
@@ -37,6 +50,11 @@ public class Node implements INode {
 		this.setAttribute(attribute);
 	}
 	
+	/**
+	 * Constructs an empty Node with a father for the specified attribute.
+	 * @param attribute
+	 * @param father
+	 */
 	public Node(String attribute, Node father) {
 		this(attribute);
 		this.setFather(father);
@@ -46,6 +64,10 @@ public class Node implements INode {
 			this.required = new TreeMap<String, String>();
 		}
 	}
+	
+	///////////////////////////
+	//// Getters / Setters ////
+	///////////////////////////
 
 	public String getAttribute() {
 		return attribute;
@@ -53,18 +75,6 @@ public class Node implements INode {
 
 	public void setAttribute(String attribute) {
 		this.attribute = attribute;
-	}
-	
-	public void addEntropy(String value, double ent) {
-		entropies.put(value, ent);
-	}
-	
-	public void addSon(String value, INode son) {
-		sons.put(value, son);
-	}
-	
-	public void addProportion(String value, double proportion) {
-		proportions.put(value, proportion);
 	}
 	
 	public Map<String, Double> getEntropies() {
@@ -122,10 +132,30 @@ public class Node implements INode {
 	public void setRequired(Map<String, String> required) {
 		this.required = required;
 	}
+	
+	////////////////
+	//// Adders ////
+	////////////////
+	
+	public void addEntropy(String value, double ent) {
+		entropies.put(value, ent);
+	}
+	
+	public void addSon(String value, INode son) {
+		sons.put(value, son);
+	}
+	
+	public void addProportion(String value, double proportion) {
+		proportions.put(value, proportion);
+	}
 
 	public void addRequired(String attribute, String currentValue) {
 		required.put(attribute, currentValue);
 	}
+	
+	//////////////////
+	///// Methods ////
+	//////////////////
 	
 	@Override
 	public String toString() {
@@ -147,7 +177,7 @@ public class Node implements INode {
 	}
 	
 	/**
-	 * Fusion dance.
+	 * Fusion dance. Copy another node's most important attributes.
 	 * @param best
 	 */
 	public void fusion(Node best) {
@@ -159,10 +189,7 @@ public class Node implements INode {
 		this.totalNegatives = best.totalNegatives;
 	}
 
-	/**
-	 * 
-	 * @return boolean true if every branch ends with a Leaf.
-	 */
+	@Override
 	public boolean isComplete() {
 		if (sons == null || sons.size() == 0) {
 			return false;
@@ -178,6 +205,11 @@ public class Node implements INode {
 		return true;
 	}
 
+	/**
+	 * Determines whether this Node is pure enough to be accepted.
+	 * @param impurity
+	 * @return
+	 */
 	public boolean isPureEnough(double impurity) {
 		for (String currentProportion : proportions.keySet()){
 			if (1 - proportions.get(currentProportion) <= impurity){

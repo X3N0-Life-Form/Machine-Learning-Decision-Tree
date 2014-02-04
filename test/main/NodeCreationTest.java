@@ -24,7 +24,7 @@ public class NodeCreationTest {
 
 	@Test
 	public void testCreateFirstNode() {
-		List<Node> nodeList = Main.createNodes(matrix, null);
+		List<Node> nodeList = Engine.createNodes(matrix, null);
 		assertTrue(nodeList.size() == matrix.getAttributes().length);
 		//TODO verify individual nodes
 	}

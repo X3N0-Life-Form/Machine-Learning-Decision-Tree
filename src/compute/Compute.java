@@ -5,6 +5,11 @@ import java.util.Map;
 import core.Matrix;
 import core.Node;
 
+/**
+ * Class containing methods calculating entropy, gain and proportions.
+ * @author Adrien Droguet & Sara Tari
+ *
+ */
 public class Compute {
 
 	/**
@@ -28,7 +33,7 @@ public class Compute {
 		int negativeCount = 0;
 		String o = matrix.getPositiveClass();
 		for (String[] row : matrix.getData()) {
-			if (row[attributeIndex].equals(value) && hasRequiredValues(row, requiredValues, matrix)) {
+			if (row[attributeIndex].equals(value) && Requirements.hasRequiredValues(row, requiredValues, matrix)) {
 				valueCount++;
 				
 				if (row[row.length - 1].equals(o)) {
@@ -42,26 +47,6 @@ public class Compute {
 		return calculateEntropy(positiveCount, negativeCount, valueCount);
 	}
 	
-	/**
-	 * 
-	 * @param row
-	 * @param requiredValues
-	 * @param matrix
-	 * @return boolean true if the row contains all the required values.
-	 */
-	public static boolean hasRequiredValues(String[] row, Map<String, String> requiredValues, Matrix matrix) {
-		if (requiredValues == null) {
-			return true;
-		}
-		for (String currentAttribute : requiredValues.keySet()) {
-			int i = matrix.getAttributeIndex(currentAttribute);
-			if (!row[i].equals(requiredValues.get(currentAttribute))) {
-				return false;
-			}
-		}
-		return true;
-	}
-
 	/**
 	 * Generic entropy calculation method.
 	 * @param positiveCount
@@ -99,7 +84,7 @@ public class Compute {
 	}
 	
 	/**
-	 * 
+	 * Calculates the proportions of a certain value for the specified {@link Node}
 	 * @param node
 	 * @param matrix
 	 * @param value
@@ -114,7 +99,7 @@ public class Compute {
 			totalValue = matrix.getNumberOfExamples(node.getAttribute(), value);
 		} else {
 			for (String[] row : matrix.getData()) {
-				if (hasRequiredValues(row, requiredValues, matrix)) {
+				if (Requirements.hasRequiredValues(row, requiredValues, matrix)) {
 					total++;
 					if (row[matrix.getAttributeIndex(node.getAttribute())].equals(value)) {
 						totalValue++;

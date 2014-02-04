@@ -11,6 +11,11 @@ import java.util.TreeMap;
 
 import core.Matrix;
 
+/**
+ * Class that deals with the parsing of a .arff file.
+ * @author Sara Tari
+ *
+ */
 public class Parser {
 	
 	/*public static void main(String[] args) throws IOException{ //TODO put this in test case
@@ -31,6 +36,12 @@ public class Parser {
 	}*/
 
 
+	/**
+	 * Self explanatory.
+	 * @param fileURL
+	 * @return A Matrix object representing the parsed file.
+	 * @throws IOException
+	 */
 	public static Matrix parseFile(String fileURL) throws IOException {
 		//////////////////////////
 		///// Counting Phase /////
@@ -137,7 +148,13 @@ public class Parser {
 		return mat;
 	}
 	
-	private static boolean optionalString(String string, String line) {
+	/**
+	 * Checks whether a non-essential String is present.
+	 * @param string
+	 * @param line
+	 * @return True if the line starts with the specified String.
+	 */
+	public static boolean optionalString(String string, String line) {
 		if (!line.startsWith(string))
 			return false;
 		else
