@@ -208,7 +208,7 @@ public class Node implements INode {
 	/**
 	 * Determines whether this Node is pure enough to be accepted.
 	 * @param impurity
-	 * @return
+	 * @return True if the Node is pure enough.
 	 */
 	public boolean isPureEnough(double impurity) {
 		for (String currentProportion : proportions.keySet()){

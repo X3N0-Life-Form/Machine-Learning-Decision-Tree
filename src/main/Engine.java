@@ -33,7 +33,7 @@ public class Engine {
 	private static double impurity = DEFAULT_IMPURITY;
 	private static String fileName = DEFAULT_FILE_NAME;
 	
-	static Node root = null;
+	static Node root = null;//TODO:privatize / doc this?
 	
 	///////////////////////////
 	//// Getters / Setters ////
@@ -119,7 +119,7 @@ public class Engine {
 	 * able to choose the best.
 	 * @param matrix
 	 * @param skeletonWarriorNode set to null for first node
-	 * @return
+	 * @return List of created Nodes.
 	 */
 	public static List<Node> createNodes(Matrix matrix, Node skeletonWarriorNode) {
 		ArrayList<Node> nodeList = null;
@@ -177,7 +177,7 @@ public class Engine {
 	 * Choose the best node amongst a list of nodes, according to their individual gains.
 	 * @param nodeList
 	 * @param matrix
-	 * @return
+	 * @return Best Node within the provided List.
 	 */
 	public static Node chooseBest(List<Node> nodeList, Matrix matrix){
 		Node tempNode = null;

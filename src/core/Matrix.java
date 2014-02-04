@@ -71,7 +71,7 @@ public class Matrix {
 	
 	/**
 	 * We don't do that anymore.
-	 * @return
+	 * @return Was supposed to be the 'positive' value of the class attribute.
 	 */
 	@Deprecated
 	public String getPositiveClass() {

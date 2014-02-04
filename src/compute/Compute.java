@@ -23,7 +23,7 @@ public class Compute {
 	 * @param value
 	 * @param matrix
 	 * @param requiredValues set to null if it isn't required.
-	 * @return
+	 * @return Entropy of the specified attribute value.
 	 */
 	public static double entropy(String attribute, String value, Matrix matrix, Map<String, String> requiredValues) {
 		int attributeIndex = matrix.getAttributeIndex(attribute);
@@ -52,7 +52,7 @@ public class Compute {
 	 * @param positiveCount
 	 * @param negativeCount
 	 * @param valueCount
-	 * @return
+	 * @return Entropy value according to the specified parameters.
 	 */
 	public static double calculateEntropy(int positiveCount, int negativeCount, int valueCount) {
 		if (positiveCount == negativeCount) {
@@ -67,11 +67,11 @@ public class Compute {
 	}
 	
 	/**
-	 * Calculates the gain for the specified attributes.
+	 * Calculates the gain for the specified node.
 	 * Note that entropies must have been calculated beforehand.
-	 * @param attribute
 	 * @param node
-	 * @return
+	 * @param matrix
+	 * @return Gain for the specified Node.
 	 */
 	public static double gain(Node node, Matrix matrix) {
 		double entropy = node.getEntropy();
@@ -89,7 +89,7 @@ public class Compute {
 	 * @param matrix
 	 * @param value
 	 * @param requiredValues set to null if this isn't required
-	 * @return
+	 * @return Proportions of the specified value for the specified Node.
 	 */
 	public static double proportions(Node node, Matrix matrix, String value, Map<String, String> requiredValues) {
 		int total = 0;
