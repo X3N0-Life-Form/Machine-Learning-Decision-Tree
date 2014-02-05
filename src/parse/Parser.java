@@ -54,7 +54,7 @@ public class Parser {
 			line = br.readLine();
 		}
 		
-		System.out.println("Number of attributes: "+ nbAttributes);
+		System.out.println("\nNumber of attributes: "+ nbAttributes);
 		System.out.println("Number of examples: " + nbExamples);
 		
 		/////////////////////////

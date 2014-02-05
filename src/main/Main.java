@@ -34,6 +34,7 @@ public class Main {
 		Node currentNode = Engine.root;
 		
 		Engine.buildTree(matrix, currentNode, currentDepth);
+		System.out.println();
 		System.out.println(Engine.root.ourToString(0));
 	}
 
@@ -41,7 +42,7 @@ public class Main {
 	 * Prints a small recap of the current settings (selected file, max depth, etc.).
 	 */
 	public static void printRecap() {
-		System.out.println("File:\t" + Engine.getFileName());
+		System.out.println("\nFile:\t\t" + Engine.getFileName());
 		System.out.println("Max depth:\t" + Engine.getMaxDepth());
 		System.out.println("Impurity:\t" + Engine.getImpurity());
 	}
@@ -61,7 +62,7 @@ public class Main {
 				Engine.setMaxDepth(Integer.parseInt(args[++i]));
 				break;
 			case "-impurity":
-				Engine.setImpurity(Integer.parseInt(args[++i]));
+				Engine.setImpurity(Double.parseDouble(args[++i]));
 				break;
 			default:
 				System.err.println("Unrecognised argument:" + currentArg);
