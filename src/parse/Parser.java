@@ -98,17 +98,20 @@ public class Parser {
 			else if (optionalString("@data", line)){
 				int j = 0;
 				String tempArg;
-				while(line != null && !line.contains("%")){
+				while(line != null){
 					line = br.readLine();
 					if (line == null)
 						break;
+					line = removeComments(line);
 					String tempLine = line.trim();
 					
 					i = 0;
 					while(tempLine.length() != 0){						
 						if (tempLine.contains(",")){
 							tempArg = tempLine.substring(0, tempLine.indexOf(",")).trim();
-							tempLine = tempLine.replace(tempArg+",", "");
+							if (tempArg.equals("?"))
+								tempArg = "\\" + tempArg;
+							tempLine = tempLine.replaceFirst(tempArg+",", "");
 						}
 						else {
 							tempArg = tempLine.trim();
@@ -130,6 +133,20 @@ public class Parser {
 		return mat;
 	}
 	
+	/**
+	 * Removes comments from a line.
+	 * @param line
+	 * @return A line without comments.
+	 */
+	protected static String removeComments(String line) {
+		String myLine = line;
+		if (line.contains("%")) {
+			int position = line.indexOf("%");
+			myLine = line.substring(0, position);
+		}
+		return myLine;
+	}
+
 	/**
 	 * Checks whether a non-essential String is present.
 	 * @param string

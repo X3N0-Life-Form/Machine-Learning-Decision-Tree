@@ -178,4 +178,21 @@ public class Matrix {
 		}
 		return dominant;
 	}
+	
+	@Override
+	public String toString() {
+		String s = "Matrix:\n";
+		s += "Attributes:";
+		for (String current : attributes) {
+			s += "\n\t" + current;
+		}
+		s += "\n\nData:";
+		for (String[] row : data) {
+			s += "\n\t";
+			for (int i = 0; i < row.length; i++) {
+				s += attributes[i] + "=" + row[i] + ";\t";
+			}
+		}
+		return s;
+	}
 }
