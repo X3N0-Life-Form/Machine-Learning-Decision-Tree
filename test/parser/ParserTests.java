@@ -12,6 +12,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import parse.Parser;
+import parse.ParserException;
 import core.Matrix;
 
 public class ParserTests {
@@ -31,9 +32,10 @@ public class ParserTests {
 	/**
 	 * 5 attributes & 14 examples.
 	 * @throws IOException
+	 * @throws ParserException 
 	 */
 	@Test
-	public void test() throws IOException {
+	public void test() throws IOException, ParserException {
 		Matrix mat = Parser.parseFile(Engine.DEFAULT_FILE_NAME);
 		assertTrue(mat.getAttributes().length == 5);
 		assertTrue(mat.getData().length == 14);

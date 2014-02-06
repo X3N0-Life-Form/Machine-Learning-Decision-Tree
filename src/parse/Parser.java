@@ -23,8 +23,9 @@ public class Parser {
 	 * @param fileURL
 	 * @return A Matrix object representing the parsed file.
 	 * @throws IOException
+	 * @throws ParserException If an invalid value was encountered
 	 */
-	public static Matrix parseFile(String fileURL) throws IOException {
+	public static Matrix parseFile(String fileURL) throws IOException, ParserException {
 		//////////////////////////
 		///// Counting Phase /////
 		//////////////////////////
@@ -116,6 +117,9 @@ public class Parser {
 						else {
 							tempArg = tempLine.trim();
 							tempLine = tempLine.replace(tempArg, "");
+						}
+						if (!validValues.get(attributes[i]).contains(tempArg)) {
+							throw new ParserException("Invalid value detected for attribute " + attributes[i] + "(value= " + tempArg + ")");
 						}
 						data[j][i] = tempArg;					
 						i++;

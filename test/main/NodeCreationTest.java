@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import parse.Parser;
+import parse.ParserException;
 import core.Matrix;
 import core.Node;
 
@@ -18,7 +19,7 @@ public class NodeCreationTest {
 	private Matrix matrix;
 	
 	@Before
-	public void setup() throws IOException {
+	public void setup() throws IOException, ParserException {
 		matrix = Parser.parseFile(testFile);
 	}
 

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import parse.Parser;
+import parse.ParserException;
 import core.Matrix;
 import core.Node;
 
@@ -23,19 +24,22 @@ public class Main {
 		
 		handleArgs(args);
 		printRecap();
-		
-		Matrix matrix = Parser.parseFile(Engine.getFileName());
-		
-		List<Node> firstNodes = Engine.createNodes(matrix, Engine.root);
-		Engine.root = Engine.chooseBest(firstNodes, matrix);
-		Engine.createSons(Engine.root, matrix, 0);
-		
-		int currentDepth = 1;
-		Node currentNode = Engine.root;
-		
-		Engine.buildTree(matrix, currentNode, currentDepth);
-		System.out.println();
-		System.out.println(Engine.root.ourToString(0));
+		try {
+			Matrix matrix = Parser.parseFile(Engine.getFileName());
+			
+			List<Node> firstNodes = Engine.createNodes(matrix, Engine.root);
+			Engine.root = Engine.chooseBest(firstNodes, matrix);
+			Engine.createSons(Engine.root, matrix, 0);
+			
+			int currentDepth = 2;
+			Node currentNode = Engine.root;
+			
+			Engine.buildTree(matrix, currentNode, currentDepth);
+			System.out.println();
+			System.out.println(Engine.root.ourToString(0));
+		} catch (ParserException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
