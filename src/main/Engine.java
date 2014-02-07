@@ -103,7 +103,7 @@ public class Engine {
 					String classValue = matrix.getFirstClassValue(node.getAttribute(), currentValue, node.getRequired());
 					node.addSon(currentValue, new Leaf(node, classValue, currentValue));
 					
-				} else if (currentDepth == Engine.maxDepth - 1 || node.isPureEnough(Engine.impurity)) {
+				} else if (currentDepth >= Engine.maxDepth - 1 || node.isPureEnough(Engine.impurity)) {
 					
 					String classValue = matrix.getDominantClassValue(node.getAttribute(), currentValue, node.getRequired());
 					node.addSon(currentValue, new Leaf(node, classValue, currentValue));

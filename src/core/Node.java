@@ -168,7 +168,11 @@ public class Node implements INode {
 		for (int i = 0; i < depth; i++) {
 			tab += "\t";
 		}
-		String temp = tab + "Attribute = " + attribute + "; Entropy = " + entropy;
+		String value = "None";
+		if (required != null) {
+			value = required.get(father.getAttribute());
+		}
+		String temp = tab + "Value = " + value + "; Attribute = " + attribute + "; Entropy = " + entropy;
 		for (String currentSon : sons.keySet()) {
 			INode actualSon = sons.get(currentSon);
 			temp += "\n" + actualSon.ourToString(depth + 1);
