@@ -119,6 +119,7 @@ public class Parser {
 							tempLine = tempLine.replace(tempArg, "");
 						}
 						if (!validValues.get(attributes[i]).contains(tempArg)) {
+							br.close();
 							throw new ParserException("Invalid value detected for attribute " + attributes[i] + "(value= " + tempArg + ")");
 						}
 						data[j][i] = tempArg;					

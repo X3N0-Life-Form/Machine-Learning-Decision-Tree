@@ -22,7 +22,7 @@ public class Engine {
 	///////////////////
 	
 	public static final String DEFAULT_FILE_NAME = "resources/data/weather.nominal.arff";
-	public static final int DEFAULT_MAX_DEPTH = 100;
+	public static final int DEFAULT_MAX_DEPTH = 5;
 	public static final double DEFAULT_IMPURITY = 0.05;
 	
 	///////////////////
@@ -31,7 +31,7 @@ public class Engine {
 	
 	private static int maxDepth = DEFAULT_MAX_DEPTH;
 	private static double impurity = DEFAULT_IMPURITY;
-	private static String fileName = "resources/data/prime.arff";
+	private static String fileName = DEFAULT_FILE_NAME;
 	
 	/**
 	 * Root node, used by Engine and Main.
